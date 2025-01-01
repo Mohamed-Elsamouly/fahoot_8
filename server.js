@@ -55,6 +55,8 @@ io.on('connection', (socket) => {
             playersScore = []; // Reset players array after emitting the data
             players = []; // Reset the players array after emitting the data
             disconnectedPlayersCount = 0; // Reset the counter
+            socket.emit("updateJoinStatus", { join: false }); // Disallow joining
+
         }
     });
 
@@ -83,6 +85,7 @@ io.on('connection', (socket) => {
                 players = [];
                 playersScore = [];
                 disconnectedPlayersCount = 0; // Reset the counter
+                socket.emit("updateJoinStatus", { join: false }); // Disallow joining
                 console.log("All 4 players disconnected. Resetting players and playersScore arrays.");
             }
         }
