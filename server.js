@@ -32,7 +32,6 @@ io.on('connection', (socket) => {
             // Emit data when 4 players are connected
             io.emit("find", { connected: true });
             console.log("Players connected:", players.map(player => player.name));
-            players = []; // Reset the players array after emitting the data
         }
     });
 
@@ -45,6 +44,7 @@ io.on('connection', (socket) => {
             // Emit player scores when all 4 players' scores are collected
             io.emit("getScore", playersScore.map(player => ({ name: player.name, score: player.score })));
             console.log("Scores sent:", playersScore);
+            players = []; // Reset the players array after emitting the data
             playersScore = []; // Reset players array after emitting the data
         }
     });
