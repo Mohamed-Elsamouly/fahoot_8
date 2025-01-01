@@ -12,7 +12,6 @@ window.Script1 = function()
 // Initialize the socket connection
 const socket = io('https://fahoot.glitch.me/');
 
-// Get the player object
 let player = GetPlayer();
 let clicked = false; 
 let join = false; // Initialize the join variable
@@ -20,29 +19,48 @@ let join = false; // Initialize the join variable
 let btn = document.querySelector("[data-acc-text='btn']");
 
 // Add event listeners for both click and touchend events
-btn.addEventListener("click", sendName);
-btn.addEventListener("touchend", sendName);
+btn.addEventListener("click", trySendName);
+btn.addEventListener("touchend", trySendName);
 
-// Function to send the player's name
-function sendName() {
-    if (join) { // Check if join is true
-        clicked = true;
-        let name = player.GetVar("name"); // Get the player's name
-        if (name !== '') { // Check if the name is not empty
-            socket.emit("find", { name: name }); // Emit the "find" event with the name
-        }
+// Function to attempt sending the player's name
+function trySendName() {
+    if (join) {
+        sendName(); // Call the sendName function when join is true
+    } else {
+        console.log("Waiting for 'join' to become true...");
     }
 }
 
-// Listen for the "find" event from the server
+// Function to send the player's name
+function sendName() {
+    clicked = true;
+    let name = player.GetVar("name"); // Get the player's name
+    if (name !== '') { // Check if the name is not empty
+        socket.emit("find", { name: name }); // Emit the "find" event with the name
+        console.log("Name sent:", name);
+    } else {
+        console.error("Name is empty. Cannot send.");
+    }
+}
+
+// Listen for the "updateJoinStatus" event from the server
 socket.on("updateJoinStatus", function(data) {
     join = data.join; // Update the join variable based on server data
+    console.log("Join status updated:", join);
+
+    // Automatically attempt to send the name if the button was already clicked
+    if (clicked && join) {
+        sendName();
+    }
 });
-	
+
+// Listen for the "find" event from the server
 socket.on("find", (e) => {
     player.SetVar("connected", e.connected); // Update the player's "connected" variable
     player.SetVar("ID", e.sessionId);
+    console.log("Find event received. Connected:", e.connected, "Session ID:", e.sessionId);
 });
+
 
 }
 
