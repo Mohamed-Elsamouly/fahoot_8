@@ -20,6 +20,7 @@ const io = socketio(expressServer);
 
 let players = []; // This will store both player names and their scores
 let playersScore = []; 
+let disconnectedPlayersCount = 0; // Counter to track disconnected players
 
 // Socket.IO logic
 io.on('connection', (socket) => {
@@ -64,8 +65,15 @@ io.on('connection', (socket) => {
                 // Set the player's score to zero if the number of players is 4 or more
                 const disconnectedPlayer = players[disconnectedPlayerIndex];
                 playersScore.push({ name: disconnectedPlayer.name, score: 0 });
+                disconnectedPlayersCount++;
                 console.log(`Player disconnected after 4 players were connected. Score set to zero.`);
             }
+        }
+        if (disconnectedPlayersCount === 4){
+            players = [];
+            playersScore = [];
+            disconnectedPlayersCount = 0; // Reset the counter
+            console.log("All 4 players disconnected. Resetting players and playersScore arrays.");
         }
     });
 });
