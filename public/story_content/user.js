@@ -10,7 +10,7 @@ window.Script1 = function()
   console.log(io); // Ensure `io` is available (e.g., Socket.IO library is loaded)
 
 // Initialize the socket connection
-const socket = io('https://fahoot.glitch.me/');
+const socket = io('https://fahoot1.glitch.me/');
 
 let player = GetPlayer();
 let clicked = false; 
@@ -135,7 +135,7 @@ player.SetVar("correct_answer", quizQuestions[question_no].correctAnswer);
 
 window.Script3 = function()
 {
-  const socket = io('https://fahoot.glitch.me/'); 
+  const socket = io('https://fahoot1.glitch.me/'); 
 
 let player = GetPlayer(); 
 let name = player.GetVar("name"); 
