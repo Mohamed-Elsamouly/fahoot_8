@@ -35,8 +35,8 @@ function sendName() {
 
 socket.on("find", (e) => {
     player.SetVar("connected", e.connected); // Update the player's "connected" variable
+    player.SetVar("ID", e.sessionId);
 });
-
 
 }
 
