@@ -46,6 +46,8 @@ io.on('connection', (socket) => {
             console.log("Scores sent:", playersScore);
             players = []; // Reset the players array after emitting the data
             playersScore = []; // Reset players array after emitting the data
+            console.log(players);
+            console.log(playersScore);
         }
     });
 
