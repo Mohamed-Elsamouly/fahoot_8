@@ -25,9 +25,9 @@ let disconnectedPlayersCount = 0; // Counter to track disconnected players
 // Socket.IO logic
 io.on('connection', (socket) => {
        if (players.length < 4) {
-            socket.emit("joinStatus", { join: true }); // Allow joining
+            socket.emit("updateJoinStatus", { join: true }); // Allow joining
         } else {
-            socket.emit("joinStatus", { join: false }); // Disallow joining
+            socket.emit("updateJoinStatus", { join: false }); // Disallow joining
         }
     // Listen for "find" event (player name submission)
     socket.on("find", (e) => {
