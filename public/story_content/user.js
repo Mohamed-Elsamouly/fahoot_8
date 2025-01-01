@@ -15,6 +15,7 @@ const socket = io('https://fahoot1.glitch.me/');
 // Get the player object
 let player = GetPlayer();
 let clicked = false; 
+let join = false; // Initialize the join variable
 // Select the button element
 let btn = document.querySelector("[data-acc-text='btn']");
 
@@ -24,15 +25,20 @@ btn.addEventListener("touchend", sendName);
 
 // Function to send the player's name
 function sendName() {
-	clicked = true;
-    let name = player.GetVar("name"); // Get the player's name
-    if (name !== '') { // Check if the name is not empty
-        socket.emit("find", { name: name }); // Emit the "find" event with the name
+    if (join) { // Check if join is true
+        clicked = true;
+        let name = player.GetVar("name"); // Get the player's name
+        if (name !== '') { // Check if the name is not empty
+            socket.emit("find", { name: name }); // Emit the "find" event with the name
+        }
     }
 }
 
 // Listen for the "find" event from the server
-
+socket.on("updateJoinStatus", function(data) {
+    join = data.join; // Update the join variable based on server data
+});
+	
 socket.on("find", (e) => {
     player.SetVar("connected", e.connected); // Update the player's "connected" variable
     player.SetVar("ID", e.sessionId);
