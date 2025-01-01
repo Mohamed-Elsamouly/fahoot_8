@@ -128,17 +128,17 @@ socket.emit("getScore", {name: name, score: score});
 socket.on("getScore", (e) => {
     // Assuming 'player' is already defined and accessible
     if (e.length >= 4) { // Ensure there are at least 4 players
-        player.SetVar("player_1", e.scores[0].name);
-        player.SetVar("player1_score", e.scores[0].score);
+        player.SetVar("player_1", e[0].name);
+        player.SetVar("player1_score", e[0].score);
 
-        player.SetVar("player_2", e.scores[1].name);
-        player.SetVar("player2_score", e.scores[1].score);
+        player.SetVar("player_2", e[1].name);
+        player.SetVar("player2_score", e[1].score);
 
-        player.SetVar("player_3", e.scores[2].name);
-        player.SetVar("player3_score", e.scores[2].score);
+        player.SetVar("player_3", e[2].name);
+        player.SetVar("player3_score", e[2].score);
 
-        player.SetVar("player_4", e.scores[3].name);
-        player.SetVar("player4_score", e.scores[3].score);
+        player.SetVar("player_4", e[3].name);
+        player.SetVar("player4_score", e[3].score);
         
         player.SetVar("getScore", true);
     } else {
